@@ -10,7 +10,8 @@ return new class extends Migration
     {
         Schema::create('job_applications', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('job_posting_id')->constrained('job_postings')->onDelete('cascade');
+            $table->uuid('job_posting_id');
+            $table->foreign('job_posting_id')->references('id')->on('job_postings')->onDelete('cascade');
             $table->uuid('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
             $table->string('applicant_name');

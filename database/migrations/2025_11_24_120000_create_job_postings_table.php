@@ -9,7 +9,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('job_postings', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->uuid('company_id')->nullable();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('set null');
             $table->string('title');
