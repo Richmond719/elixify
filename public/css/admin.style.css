@@ -1,0 +1,484 @@
+/* Ensure floating Add Company button is always fully visible on mobile */
+/* Floating Add Company button: always fully visible, respects safe area */
+
+.add-company-fab {
+    position: fixed;
+    z-index: 9999;
+    right: 0 !important;
+    bottom: 0 !important;
+    left: auto;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0.5rem;
+    outline: 3px solid #fff;
+    outline-offset: -2px;
+    background: #212529;
+}
+@media (max-width: 575.98px) {
+    .add-company-fab {
+        width: 48px;
+        height: 48px;
+        margin: 0.25rem;
+    }
+}
+/* Global Admin Styles - Black & White Theme */
+:root {
+    --bg: #ffffff;
+    --fg: #000000;
+    --ui-font: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    --primary-bg: #000000; /* black */
+    --primary-text: #ffffff; /* white */
+    --muted: #6c757d;
+    --sidebar-width: 15rem;
+    --content-max-width: 1100px;
+    --content-side-padding: 1.25rem;
+}
+
+html, body {
+    background-color: var(--bg);
+    color: var(--fg);
+    font-family: var(--ui-font);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Headings should be slightly bolder and use the same UI font */
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--ui-font);
+    font-weight: 600;
+}
+
+/* Map Bootstrap utilities to the theme */
+.bg-primary { background-color: var(--primary-bg) !important; color: var(--primary-text) !important; }
+.bg-light { background-color: var(--bg) !important; color: var(--fg) !important; }
+.text-primary { color: var(--fg) !important; }
+
+/* Layout */
+#wrapper {
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+/* Sidebar Styles */
+/* Sidebar Styles */
+#sidebar-wrapper {
+    min-height: 100vh;
+    width: var(--sidebar-width);
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 1040;
+    background-color: var(--primary-bg) !important;
+    color: var(--primary-text);
+    transition: transform 0.25s ease-in-out;
+    transform: translateX(-100%); /* hidden by default */
+}
+
+/* When wrapper does NOT have the hidden class, reveal the sidebar and push content */
+#wrapper:not(.sidebar-hidden) #sidebar-wrapper {
+    transform: translateX(0);
+}
+/* Page content wrapper is responsive to sidebar state */
+#page-content-wrapper {
+    min-width: 0;
+    width: 100%;
+    margin: 0 auto;
+    background-color: var(--bg);
+    transition: margin .25s ease-in-out, max-width .25s ease-in-out, padding .25s ease-in-out;
+    box-sizing: border-box;
+    padding-left: var(--content-side-padding);
+    padding-right: var(--content-side-padding);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+@media (min-width: 768px) {
+    #sidebar-wrapper {
+        /* keep fixed to overlay; .sidebar-hidden controls visibility */
+        position: fixed;
+        left: 0;
+        top: 0;
+    }
+    /* Desktop: when sidebar is visible (not hidden) push content to the right */
+    #wrapper:not(.sidebar-hidden) #page-content-wrapper {
+        margin-left: var(--sidebar-width);
+        margin-right: auto;
+        max-width: calc(100vw - var(--sidebar-width) - 4 * var(--content-side-padding));
+        padding-left: 2rem;
+        padding-right: var(--content-side-padding);
+    }
+
+    /* Desktop: when sidebar is hidden center the page content with a comfortable max width */
+    #wrapper.sidebar-hidden #page-content-wrapper {
+        margin-left: auto;
+        margin-right: auto;
+        max-width: var(--content-max-width);
+        padding-left: var(--content-side-padding);
+        padding-right: var(--content-side-padding);
+    }
+}
+@media (max-width: 767.98px) {
+    #sidebar-wrapper {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        transform: translateX(-100%);
+        box-shadow: 2px 0 8px rgba(0,0,0,0.08);
+    }
+    #wrapper:not(.sidebar-hidden) #sidebar-wrapper {
+        transform: translateX(0);
+    }
+    /* Mobile: content is full width by default */
+    #page-content-wrapper {
+        margin-left: 0;
+        margin-right: 0;
+        max-width: 100%;
+        width: 100%;
+    }
+}
+/* Responsive table scroll */
+.table-responsive { overflow-x: auto; }
+/* Sidebar List Item Customization */
+.list-group-flush .list-group-item-action {
+    color: var(--primary-text);
+    transition: background-color 0.15s ease-in-out, transform 0.12s ease-in-out, border-left 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    cursor: pointer;
+    border-left: 5px solid transparent;
+    position: relative;
+}
+.list-group-flush .list-group-item-action:hover {
+    background-color: rgba(255, 255, 255, 0.12);
+    color: var(--primary-text);
+    transform: translateX(2px);
+    border-left-color: rgba(255, 255, 255, 0.3);
+    box-shadow: inset 0 2px 8px rgba(255, 255, 255, 0.04), inset 0 0 0 2px rgba(255,255,255,0.18);
+    border-radius: 0.5rem;
+}
+/* Custom Highlight for Active Sidebar Item */
+.list-group-item.bg-secondary.text-white,
+.list-group-item-action.active {
+    background-color: rgba(255, 255, 255, 0.15) !important;
+    border-left: 5px solid var(--primary-text) !important;
+    box-shadow: inset 0 0 12px rgba(255, 255, 255, 0.08), -2px 0 8px rgba(0, 0, 0, 0.12), inset 0 0 0 2px rgba(255,255,255,0.18);
+    font-weight: 500;
+    letter-spacing: 0.2px;
+}
+/* Chart container height */
+.chart-area { height: 300px; /* Standard height for dashboard charts */ }
+
+/* Small utility tweaks to make admin fully monochrome */
+.card { background-color: var(--bg); color: var(--fg); }
+.table thead { background-color: #f1f1f1; }
+.btn-outline-primary { color: var(--fg); border-color: var(--fg); }
+.btn-outline-primary:hover { background-color: var(--fg); color: var(--primary-text); }
+
+/* Company profile modern styles */
+.company-hero {
+    background: linear-gradient(120deg, #ffffff 0%, #fafafa 50%, #f8fbff 100%);
+    border-radius: 0.6rem;
+    padding: 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.company-hero .card-body, .company-hero .p-4 {
+    padding: 1.75rem !important;
+}
+.company-logo {
+    width: 96px;
+    height: 96px;
+    border-radius: 14px;
+    background: var(--primary-bg);
+    color: var(--primary-text);
+    font-size: 1.5rem;
+    box-shadow: 0 6px 18px rgba(13,17,23,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.company-hero h2 {
+    font-size: 1.6rem;
+    letter-spacing: -0.2px;
+    margin-bottom: 0.5rem;
+}
+.company-hero p {
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+}
+
+.card.shadow-sm { border-radius: .6rem; }
+.card .card-body { padding: 1.25rem; }
+
+.badge.bg-light { background-color: #f1f3f5 !important; color: #222 !important; }
+
+/* Subtle entrance animation for cards */
+@keyframes slideUpFade {
+    from { transform: translateY(6px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+.job-card { animation: slideUpFade .18s ease both; }
+
+/* Company cards — modern, clean appearance without dropdowns */
+.company-card {
+    transition: transform .16s ease, box-shadow .16s ease;
+    border: 1px solid rgba(13,17,23,0.04);
+}
+
+/* Hover elevation only on tablet/desktop (>=768px) to avoid floating cards on phones */
+@media (min-width: 768px) {
+    .company-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 10px 30px rgba(8,12,20,0.06);
+    }
+}
+
+.company-card .card-body { display: flex; flex-direction: column; }
+.company-card .company-meta { display: flex; gap: .5rem; align-items: center; flex-wrap: wrap; }
+.company-card .company-meta a { text-decoration: none; }
+
+.company-actions { display: flex; gap: .5rem; align-items: center; }
+.company-actions .btn { padding: .45rem .6rem; font-size: .85rem; display: inline-flex; align-items: center; gap: .5rem; }
+.company-actions .btn .btn-icon { opacity: 0; transform: translateX(-6px); transition: opacity .14s ease, transform .14s ease; }
+/* reveal icons when user hovers the card (desktop) */
+@media (hover: hover) and (min-width: 768px) {
+    .company-card:hover .company-actions .btn .btn-icon { opacity: 1; transform: translateX(0); }
+}
+.company-actions .btn-outline-info { border-color: rgba(56,189,248,0.12); }
+
+/* On narrow desktop/tablet widths, hide button text to reduce weight (icons remain) */
+/* Always show button text on all devices */
+.company-actions .btn .btn-text { display: inline; }
+
+/* Make badges and chips look modern and subtle */
+.company-card .badge { font-weight: 600; }
+.company-card .badge.bg-light { background: #f6f8fa; color: #222; border: 1px solid rgba(0,0,0,0.04); }
+
+@media (max-width: 767.98px) {
+    .company-card { padding-bottom: .6rem; }
+}
+
+/* Responsive tweaks */
+/* Make the search form collapse full-width on small screens */
+.search-form { max-width: 520px; min-width: 0; }
+.search-form .form-control { min-width: 0; }
+
+@media (max-width: 767.98px) {
+    .search-form { width: 100% !important; max-width: none; }
+}
+
+/* Improve spacing for the companies grid on small screens */
+.companies-grid { margin-left: -0.5rem; margin-right: -0.5rem; }
+.companies-grid > .col-12, .companies-grid > .col-sm-6, .companies-grid > .col-lg-4 { padding-left: 0.5rem; padding-right: 0.5rem; }
+
+/* Listing controls - avoid awkward wrapping */
+.listing-controls { gap: .5rem; }
+.listing-controls .listing-summary { min-width: 180px; }
+.controls-right { min-width: 280px; display: flex; align-items: center; }
+.controls-right .form-select { min-width: 80px; }
+
+/* Modern per-page control */
+.per-page-control { --per-page-bg: #fff; }
+.per-page-inner { background: var(--per-page-bg); border: 1px solid rgba(13,17,23,0.06); padding: .18rem; border-radius: .5rem; display: inline-flex; align-items: center; }
+.per-page-label { color: var(--muted); }
+.per-page-select { appearance: none; -webkit-appearance: none; -moz-appearance: none; border: none; background: transparent; padding: .35rem .9rem .35rem .45rem; font-size: .9rem; color: var(--fg); min-width: 48px; }
+.per-page-inner { position: relative; }
+.per-page-inner::after { content: "\25BE"; /* small down triangle */ position: absolute; right: .5rem; top: 50%; transform: translateY(-50%); pointer-events: none; color: var(--muted); font-size: .65rem; }
+.per-page-select:focus { outline: none; box-shadow: 0 0 0 3px rgba(13,110,253,0.06); }
+
+@media (max-width: 575.98px) {
+    .per-page-label { display: none; }
+    .per-page-inner { padding-right: 1rem; }
+}
+
+/* Pagination summary + controls styling */
+.listing-summary { color: var(--muted); font-size: .9rem; }
+.pagination-wrapper { display: flex; align-items: center; gap: .5rem; }
+
+/* Ultra-compact pagination styling */
+.pagination-wrapper .pagination { margin: 0; display: flex; gap: .25rem; }
+.pagination .page-item { margin: 0; }
+.pagination .page-link {
+    padding: .25rem .35rem;
+    font-size: .8rem;
+    border: none;
+    border-radius: .35rem;
+    color: var(--muted);
+    background: transparent;
+    transition: background .12s ease, color .12s ease;
+}
+.pagination .page-link:hover { background: rgba(0,0,0,0.04); color: var(--fg); }
+.pagination .page-item.active .page-link {
+    background-color: var(--fg);
+    border: none;
+    color: var(--primary-text);
+}
+.pagination .page-item.disabled .page-link { color: #ccc; cursor: not-allowed; }
+.pagination-wrapper { white-space: nowrap; }
+.pagination-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+/* Reduce visual weight of pagination on small screens */
+@media (max-width: 575.98px) {
+    .pagination .page-link { padding: .2rem .3rem; font-size: .75rem; }
+}
+
+/* Keep summary and controls aligned without wrapping on medium+ */
+@media (min-width: 768px) {
+    .listing-controls { align-items: center; }
+    .listing-summary { margin-right: 1rem; }
+    .controls-right { display: flex; align-items: center; }
+}
+
+/* Action buttons responsiveness: stack on xs, inline on sm+ */
+.company-actions { width: 100%; }
+@media (max-width: 575.98px) {
+    .company-actions .btn { display: block; width: 100%; }
+}
+@media (min-width: 576px) {
+    .company-actions .btn { display: inline-block; width: auto; }
+}
+
+/* Improve card header truncation */
+.company-card h5 { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* Slightly reduce card padding on very small screens to increase density */
+@media (max-width: 420px) {
+    .company-card .card-body { padding: .85rem; }
+}
+
+/* Ensure pagination controls wrap nicely */
+.pagination { margin: 0; }
+.page-header .btn { white-space: nowrap; }
+
+@media (max-width: 767.98px) {
+        .company-logo { width:72px; height:72px; }
+        .company-hero h2 { font-size:1.25rem; }
+}
+
+/* Accessibility: reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+    .company-card:hover { transform: none !important; box-shadow: none !important; }
+}
+
+/* Animated sidebar toggle button */
+.animated-toggle { position: relative; overflow: visible; }
+.animated-toggle .icon-list, .animated-toggle .icon-close { display: inline-block; transition: transform .18s ease, opacity .18s ease; }
+.animated-toggle .icon-close { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%) scale(.9); opacity: 0; }
+.animated-toggle.open .icon-list { transform: translateY(-6px) scale(.8); opacity: 0; }
+.animated-toggle.open .icon-close { transform: translate(-50%,-50%) scale(1); opacity: 1; }
+.animated-toggle { transition: box-shadow .12s ease, transform .12s ease; }
+.animated-toggle:active { transform: scale(.98); }
+
+/* small toast that appears under the toggle */
+.sidebar-toast { position: fixed; background: rgba(0,0,0,0.85); color: #fff; padding: .35rem .6rem; border-radius: .4rem; font-size: .82rem; opacity: 0; transform: translateY(6px); transition: opacity .18s ease, transform .18s ease; z-index: 2000; pointer-events: none; }
+.sidebar-toast.show { opacity: 1; transform: translateY(0); }
+
+/* subtle focus outline for accessibility */
+.animated-toggle:focus { box-shadow: 0 6px 18px rgba(0,0,0,0.08); outline: none; }
+
+/* Center the page content when sidebar is hidden (modern app look) */
+#wrapper.sidebar-hidden #page-content-wrapper {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: var(--content-max-width);
+    transition: max-width .22s ease, margin .22s ease;
+}
+
+/* Subtle left-edge hotspot to hint at hover zone for sidebar reveal */
+body::before {
+    content: '';
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 2px;
+    height: 100vh;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.06), transparent, transparent, rgba(0,0,0,0.06));
+    pointer-events: none;
+    z-index: 1030;
+}
+
+/* Micro animation keyframes left intentionally available for future toggles */
+@keyframes edgePop { 0% { transform: translateY(-50%) scale(.96); } 60% { transform: translateY(-50%) scale(1.06); } 100% { transform: translateY(-50%) scale(1); } }
+
+/* Smaller screens: position slightly closer to edge */
+@media (max-width: 767.98px) {
+    /* no edge toggle; ensure layout stays usable */
+}
+
+/* Ensure the edge toggle is reachable and doesn't block content */
+#page-content-wrapper { transition: margin .22s ease; }
+
+/* Page header: subtle border and spacing to match dashboard style */
+.page-header {
+    padding-bottom: 0.65rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    width: 100%;
+}
+.page-header > h2 { margin-bottom: .25rem; }
+.page-header p { margin-bottom: .375rem; color: var(--muted); }
+
+/* Header layout: left (title) and right (controls) */
+.page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+.page-header .header-left { min-width: 0; flex: 1 1 auto; }
+.page-header .header-right { flex: 0 0 auto; display: flex; align-items: center; gap: .75rem; }
+
+/* Search form sizing: full width on xs, fixed on md+ */
+.search-form { width: 100%; max-width: 420px; }
+@media (min-width: 768px) {
+    .search-form { width: 320px; }
+}
+@media (min-width: 992px) {
+    .search-form { width: 420px; }
+}
+
+/* Ensure the Add button sits to the right of the search on medium+ */
+.header-right .btn { white-space: nowrap; }
+
+/* Make sure the title text truncates gracefully if space is tight */
+.page-header .header-left h2 { margin-bottom: .15rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.page-header .header-left p { margin-bottom: 0; }
+
+/* Modern footer styles */
+.site-footer {
+    border-top: 1px solid rgba(0,0,0,0.06);
+    background: transparent;
+    color: var(--muted);
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+.site-footer .footer-links a {
+    color: var(--muted);
+    text-decoration: none;
+    transition: color .12s ease, transform .12s ease;
+    display: inline-block;
+}
+.site-footer .footer-links a:hover {
+    color: var(--fg);
+    transform: translateY(-1px);
+}
+.site-footer .fw-medium { font-weight: 600; color: var(--fg); }
+
+/* Ensure footer links center nicely and wrap on small screens */
+.site-footer .footer-links {
+    gap: .5rem;
+    flex-wrap: wrap;
+}
+
+@media (min-width: 768px) {
+    .site-footer { padding-top: 1.25rem; padding-bottom: 1.25rem; }
+}
+
