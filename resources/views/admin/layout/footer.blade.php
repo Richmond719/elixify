@@ -19,7 +19,7 @@
                 <ul class="list-unstyled small mb-0">
                     <li><a href="{{ url('/') }}" class="text-muted">Home</a></li>
                     <li><a href="{{ route('admin.companies.index') }}" class="text-muted">Companies</a></li>
-                    <li><a href="{{ route('admin.job_postings.index') }}" class="text-muted">Job Postings</a></li>
+                    <li><a href="{{ route('admin.job-postings.index') }}" class="text-muted">Job Postings</a></li>
                     <li><a href="{{ Route::has('contact') ? route('contact') : '#' }}" class="text-muted">Contact</a></li>
                 </ul>
             </div>

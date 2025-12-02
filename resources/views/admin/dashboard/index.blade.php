@@ -8,35 +8,7 @@
 @endphp
 @section('content')
     <style>
-        /* Dashboard background (blurred) */
-        .dashboard-bg {
-            position: relative;
-            min-height: 100vh;
-            overflow: hidden;
-        }
-        /* blurred background image */
-        .dashboard-bg::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background-image: url('{{ asset("img/dashboard-bg.jpg") }}');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            filter: blur(6px);
-            transform: scale(1.03);
-            z-index: 0;
-        }
-        /* semi-transparent overlay to reduce image visibility and improve contrast */
-        .dashboard-bg::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background-color: rgba(255,255,255,0.78); /* change alpha to adjust image visibility */
-            z-index: 1;
-        }
-        .dashboard-bg > * { position: relative; z-index: 2; }
-    .metric-card { transition: transform 0.2s, box-shadow 0.2s; border-radius: 12px; }
+        .metric-card { transition: transform 0.2s, box-shadow 0.2s; border-radius: 12px; }
         .metric-card:hover { transform: translateY(-4px); box-shadow: 0 8px 16px rgba(0,0,0,0.1) !important; }
         .metric-card .metric-value { font-size: 2.2rem; }
         .metric-card .metric-label { font-size: 0.75rem; letter-spacing: 1px; }

@@ -6,6 +6,7 @@ use App\Http\Resources\JobPostingResource;
 use App\Models\JobPosting;
 use App\Models\Company;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class JobPostingController extends Controller
 {
@@ -15,17 +16,48 @@ class JobPostingController extends Controller
 
         // Default to Ghana-only listings unless the `all` query param is present
         if (!request()->has('all')) {
-            $query->where('location', 'like', '%Ghana%')
-                  ->orWhere('location', 'ilike', '%Accra%')
+            $query->where(function ($q) {
+                $q->where('location', 'ilike', '%Accra%')
                   ->orWhere('location', 'ilike', '%Kumasi%')
                   ->orWhere('location', 'ilike', '%Tema%')
                   ->orWhere('location', 'ilike', '%Takoradi%')
                   ->orWhere('location', 'ilike', '%Tamale%');
+            });
         }
 
-        $jobPostings = $query->paginate(12)->withQueryString();
+        // Search functionality
+        if (request('search')) {
+            $search = request('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'ilike', "%{$search}%")
+                  ->orWhere('description', 'ilike', "%{$search}%")
+                  ->orWhereHas('company', function ($companyQuery) use ($search) {
+                      $companyQuery->where('name', 'ilike', "%{$search}%");
+                  });
+            });
+        }
 
-        return view('admin.job_postings.index', ['jobPostings' => $jobPostings]);
+        // Location filter
+        if (request('location')) {
+            $location = request('location');
+            $query->where('location', 'ilike', "%{$location}%");
+        }
+
+        // Job type (classification) filter
+        if (request('type')) {
+            $type = request('type');
+            $query->where('classification', 'ilike', "%{$type}%");
+        }
+
+        $jobPostings = $query->latest()->paginate(12)->withQueryString();
+
+        // If user is authenticated and is admin, show admin view
+        if (Auth::check() && Auth::user()->isAdmin()) {
+            return view('admin.job_postings.index', ['jobPostings' => $jobPostings]);
+        }
+
+        // Otherwise, show public job listing view
+        return view('job-postings.index', ['jobPostings' => $jobPostings]);
     }
 
     public function create()
@@ -36,7 +68,15 @@ class JobPostingController extends Controller
 
     public function show(JobPosting $jobPosting)
     {
-        return view('admin.job_postings.show', ['jobPosting' => $jobPosting->load('company', 'applications')]);
+        $jobPosting = $jobPosting->load('company', 'applications');
+
+        // If user is authenticated and is admin, show admin view
+        if (Auth::check() && Auth::user()->isAdmin()) {
+            return view('admin.job_postings.show', ['jobPosting' => $jobPosting]);
+        }
+
+        // Otherwise, show public job detail view
+        return view('job-postings.show', ['jobPosting' => $jobPosting]);
     }
 
     public function store(Request $request)

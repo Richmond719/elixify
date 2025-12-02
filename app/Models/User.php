@@ -10,7 +10,6 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, HasUuids;
 
     /**
@@ -29,18 +28,20 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
+        'name',
         'fullname',
         'email',
         'password',
-        'contact_number',
         'cv_path',
+        'contact',
         'address',
+        'role',
     ];
 
     /**
      * The attributes that should be hidden for serialization.
      *
-     * @var list<string>
+     * @var array<int, string>
      */
     protected $hidden = [
         'password',
@@ -58,5 +59,29 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Get the job applications for this user.
+     */
+    public function jobApplications()
+    {
+        return $this->hasMany(JobApplication::class);
+    }
+
+    /**
+     * Check if user is an admin.
+     */
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+
+    /**
+     * Check if user is a job seeker.
+     */
+    public function isJobSeeker(): bool
+    {
+        return $this->role === 'job_seeker';
     }
 }

@@ -30,7 +30,6 @@
                         <span class="d-none d-sm-inline navbar-text text-muted" style="font-size:0.9rem;">Admin</span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="userMenuDropdown">
-                        <li><a class="dropdown-item" href="{{ route('admin.profile') }}"><i class="bi bi-person me-2"></i>Profile</a></li>
                         @if(Route::has('admin.settings.index'))
                             <li><a class="dropdown-item" href="{{ route('admin.settings.index') }}"><i class="bi bi-gear me-2"></i>Settings</a></li>
                         @else
@@ -38,10 +37,8 @@
                         @endif
                         <li><hr class="dropdown-divider"></li>
                         <li>
-                            <form method="POST" action="{{ Route::has('logout') ? route('logout') : url('/logout') }}" class="m-0">
-                                @csrf
-                                <button type="submit" class="dropdown-item text-danger"><i class="bi bi-box-arrow-right me-2"></i>Logout</button>
-                            </form>
+                            <button name="logoutButton" onclick="logout()" class="dropdown-item text-danger"><i class="bi bi-box-arrow-right me-2"></i>
+                                Logout</button>
                         </li>
                     </ul>
                 </div>
@@ -49,3 +46,4 @@
          </div>
      </div>
  </nav>
+<form id="logoutForm" action="{{ route('auth.logout') }}" method="POST">@csrf</form>

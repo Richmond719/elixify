@@ -10,11 +10,11 @@
         </div>
         <div class="ms-auto">
             <!-- Add Job: visible on all except desktop -->
-            <a href="{{ route('admin.job_postings.create') }}" class="btn btn-dark btn-sm d-lg-none align-items-center">
+            <a href="{{ route('admin.job-postings.create') }}" class="btn btn-dark btn-sm d-lg-none align-items-center">
                 <i class="bi bi-plus-circle me-2"></i> Add Job
             </a>
             <!-- Add Job: visible only on desktop (large and up) -->
-            <a href="{{ route('admin.job_postings.create') }}" class="btn btn-dark btn-sm d-none d-lg-inline-flex align-items-center">
+            <a href="{{ route('admin.job-postings.create') }}" class="btn btn-dark btn-sm d-none d-lg-inline-flex align-items-center">
                 <i class="bi bi-plus-circle me-2"></i> Add Job
             </a>
         </div>
@@ -76,10 +76,10 @@
 
                         <!-- Action Buttons -->
                         <div class="d-flex gap-2">
-                            <a href="{{ route('admin.job_postings.show', $posting->id) }}" class="btn btn-outline-info btn-sm flex-grow-1">
+                            <a href="{{ route('admin.job-postings.show', $posting->id) }}" class="btn btn-outline-info btn-sm flex-grow-1">
                                 <i class="bi bi-eye"></i> View
                             </a>
-                            <a href="{{ route('admin.job_postings.edit', $posting->id) }}" class="btn btn-outline-primary btn-sm flex-grow-1">
+                            <a href="{{ route('admin.job-postings.edit', $posting->id) }}" class="btn btn-outline-primary btn-sm flex-grow-1">
                                 <i class="bi bi-pencil"></i> Edit
                             </a>
                         </div>
@@ -92,7 +92,7 @@
                     <i class="bi bi-briefcase" style="font-size:3rem;color:#ccc;"></i>
                     <h5 class="text-muted mt-4 fw-bold">No Job Postings Yet</h5>
                     <p class="text-muted mb-4">Start building your job board by creating your first posting.</p>
-                    <a href="{{ route('admin.job_postings.create') }}" class="btn btn-dark btn-lg">
+                    <a href="{{ route('admin.job-postings.create') }}" class="btn btn-dark btn-lg">
                         <i class="bi bi-plus-circle me-2"></i>Create First Job Posting
                     </a>
                 </div>
@@ -104,7 +104,7 @@
     </div>
 
     <!-- Floating Add Button for Mobile only -->
-    <a href="{{ route('admin.job_postings.create') }}" class="btn btn-dark rounded-circle shadow-lg position-fixed d-sm-none" style="bottom:2rem;right:2rem;z-index:1050;">
+    <a href="{{ route('admin.job-postings.create') }}" class="btn btn-dark rounded-circle shadow-lg position-fixed d-sm-none" style="bottom:2rem;right:2rem;z-index:1050;">
         <i class="bi bi-plus fs-3"></i>
     </a>
 @endsection
