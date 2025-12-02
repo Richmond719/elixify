@@ -5,19 +5,96 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Register · Elixify</title>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 	<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="{{ asset('css/style.css') }}">
 	<style>
-		:root { --bg-overlay: rgba(0,0,0,0.55); --muted:#6b6b6b; }
-		* { box-sizing: border-box; margin:0; padding:0 }
-		html,body { height:100%; }
-		body {
-			font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-			min-height:100vh;
-			display:flex; align-items:center; justify-content:center;
-			background: #000 url('/img/auth-bg.jpg') center/cover no-repeat fixed;
-			color: #111;
+		* { margin: 0; padding: 0; box-sizing: border-box; }
+		html { scroll-behavior: smooth; }
+		body { background: #fff; color: var(--fg); overflow-x: hidden; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+
+		/* Smooth scrollbar */
+		::-webkit-scrollbar { width: 10px; }
+		::-webkit-scrollbar-track { background: #f1f1f1; }
+		::-webkit-scrollbar-thumb { background: #888; border-radius: 5px; }
+		::-webkit-scrollbar-thumb:hover { background: #555; }
+
+		/* Header - Sticky & Interactive */
+		.site-header {
+			background: rgba(0, 0, 0, 0.95);
+			backdrop-filter: blur(10px);
+			position: sticky;
+			top: 0;
+			z-index: 1000;
+			box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+			transition: all 0.3s ease;
 		}
-		body::before{ content:''; position:fixed; inset:0; z-index:0; background:var(--bg-overlay); filter:grayscale(100%); }
+
+		.site-header.scrolled {
+			box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
+		}
+
+		.site-header .navbar-brand {
+			color: #fff !important;
+			font-size: 1.4rem;
+			font-weight: 800;
+			letter-spacing: -0.5px;
+			transition: transform 0.3s ease;
+		}
+
+		.site-header .navbar-brand:hover {
+			transform: scale(1.05);
+		}
+
+		.site-header .nav-link {
+			color: rgba(255, 255, 255, 0.8) !important;
+			font-weight: 500;
+			font-size: 0.95rem;
+			position: relative;
+			transition: all 0.3s ease;
+			margin: 0 0.5rem;
+		}
+
+		.site-header .nav-link:hover,
+		.site-header .nav-link.active {
+			color: #fff !important;
+		}
+
+		.site-header .nav-link::after {
+			content: '';
+			position: absolute;
+			bottom: -5px;
+			left: 0;
+			width: 0;
+			height: 2px;
+			background: #fff;
+			transition: width 0.3s ease;
+		}
+
+		.site-header .nav-link:hover::after,
+		.site-header .nav-link.active::after {
+			width: 100%;
+			box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+		}
+
+		.navbar-toggler {
+			border-color: rgba(255, 255, 255, 0.3) !important;
+		}
+
+		/* Auth page specific styles */
+		.auth-page-content {
+			flex: 1;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: 2rem 0;
+			min-height: calc(100vh - 300px);
+		}
+
+		body {
+			display: flex;
+			flex-direction: column;
+		}
 
 		.auth-wrap{ position:relative; z-index:2; width:100%; max-width:640px; padding:1rem }
 		.card-auth{ position:relative; overflow:hidden; background:#fff url('/img/auth-form-bg.svg') center/cover no-repeat; color:#111; border-radius:12px; padding:2.2rem; box-shadow:0 10px 30px rgba(0,0,0,0.4); border:1px solid rgba(0,0,0,0.06) }
@@ -47,7 +124,26 @@
 	</style>
 </head>
 <body>
-	<div class="auth-wrap">
+	<header class="site-header navbar navbar-expand-lg navbar-dark">
+		<div class="container-fluid px-4">
+			<a class="navbar-brand" href="{{ url('/') }}">
+				<span style="font-size: 1.5rem;">Elixify</span>
+			</a>
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="mainNav">
+				<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+					<li class="nav-item"><a class="nav-link" href="{{ url('/') }}">Home</a></li>
+					<li class="nav-item"><a class="nav-link" href="{{ url('/job-postings') }}">Browse Jobs</a></li>
+					<li class="nav-item"><a class="nav-link" href="{{ route('auth.login.page') }}">Sign In</a></li>
+				</ul>
+			</div>
+		</div>
+	</header>
+
+	<div class="auth-page-content">
+		<div class="auth-wrap">
 		<div class="card-auth">
 			<div class="card-media">
 				<video autoplay muted loop playsinline preload="auto">
@@ -149,6 +245,7 @@
 			</div>
 		</div>
 	</div>
+	</div>
 
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script>
@@ -209,7 +306,5 @@
 			});
 		}
 	</script>
-</body>
-</html>
 </body>
 </html>

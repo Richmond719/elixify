@@ -76,14 +76,14 @@ use Illuminate\Support\Facades\Auth;
             left: 0;
             width: 0;
             height: 2px;
-            background: linear-gradient(90deg, #60a5fa, #3b82f6);
+            background: #fff;
             transition: width 0.3s ease;
         }
 
         .site-header .nav-link:hover::after,
         .site-header .nav-link.active::after {
             width: 100%;
-            box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
         }
 
         .navbar-toggler {
