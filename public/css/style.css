@@ -1,4 +1,8 @@
-/* Custom CSS for Job Platform Layout - Black & White Theme */
+/* ==========================================
+   CUSTOM CSS FOR ELIXIFY JOB PLATFORM
+   Black & White Theme
+   ========================================== */
+
 :root {
     --bg: #ffffff;
     --fg: #000000;
@@ -7,14 +11,115 @@
     --muted: #6c757d;
 }
 
-html, body { background-color: var(--bg); color: var(--fg); }
+/* ==========================================
+   GLOBAL RESET & BASE STYLES
+   ========================================== */
 
-/* Map some Bootstrap utility classes to the theme */
-.bg-primary { background-color: var(--primary-bg) !important; color: var(--primary-text) !important; }
-.text-white { color: var(--primary-text) !important; }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-/* Loading Screen Styles */
-/* Loading Screen Styles */
+html {
+    scroll-behavior: smooth;
+}
+
+html,
+body {
+    background-color: var(--bg);
+    color: var(--fg);
+    overflow-x: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Smooth scrollbar styling */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* ==========================================
+   HEADER & NAVIGATION
+   ========================================== */
+
+.site-header {
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.site-header.scrolled {
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
+}
+
+.site-header .navbar-brand {
+    color: #fff !important;
+    font-size: 1.4rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    transition: transform 0.3s ease;
+}
+
+.site-header .navbar-brand:hover {
+    transform: scale(1.05);
+}
+
+.site-header .nav-link {
+    color: rgba(255, 255, 255, 0.8) !important;
+    font-weight: 500;
+    font-size: 0.95rem;
+    position: relative;
+    transition: all 0.3s ease;
+    margin: 0 0.5rem;
+}
+
+.site-header .nav-link:hover,
+.site-header .nav-link.active {
+    color: #fff !important;
+}
+
+.site-header .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #fff;
+    transition: width 0.3s ease;
+}
+
+.site-header .nav-link:hover::after,
+.site-header .nav-link.active::after {
+    width: 100%;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+/* ==========================================
+   LOADING SCREEN
+   ========================================== */
+
 #loading-screen {
     position: fixed;
     top: 0;
@@ -27,27 +132,92 @@ html, body { background-color: var(--bg); color: var(--fg); }
     background-color: var(--bg);
     z-index: 1050;
     opacity: 1;
-    transition: opacity 300ms cubic-bezier(.2,.8,.2,1);
+    transition: opacity 300ms cubic-bezier(.2, .8, .2, 1);
 }
-#loading-screen.fade-out, #loading-screen.fade-out-fast { opacity: 0; pointer-events: none; }
-#loading-screen.fade-out-fast { transition-duration: 300ms; }
 
-#main-content { transition: opacity 220ms ease-in-out; }
+#loading-screen.fade-out,
+#loading-screen.fade-out-fast {
+    opacity: 0;
+    pointer-events: none;
+}
 
-/* Job Card Styling and Hover Animation */
-.job-card { border-color: #dee2e6 !important; transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; cursor: pointer; position: relative; }
-.job-card { border-color: #dee2e6 !important; transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; cursor: pointer; position: relative; }
-.job-card:hover { transform: translateY(-5px) scale(1.01); box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.12) !important; border-color: var(--fg) !important; }
-.job-type-badge { font-size: 0.78em; padding: 0.35em 0.7em; border-radius: 0.25rem; background-color: var(--fg); color: var(--primary-text); }
+#loading-screen.fade-out-fast {
+    transition-duration: 300ms;
+}
 
-/* Hero */
-.hero { background: linear-gradient(180deg, rgba(0,0,0,0.03), rgba(0,0,0,0.01)); border-radius: .5rem; }
-.hero .hero-title { font-size: 2rem; }
+#main-content {
+    transition: opacity 220ms ease-in-out;
+}
 
-/* Navigation tweaks */
-header .nav-link { font-weight: 500; }
+/* ==========================================
+   JOB CARDS
+   ========================================== */
 
-/* Responsive tweaks to keep layout tidy on small screens */
+.job-card {
+    border-color: #dee2e6 !important;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    cursor: pointer;
+    position: relative;
+}
+
+.job-card:hover {
+    transform: translateY(-5px) scale(1.01);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.12) !important;
+    border-color: var(--fg) !important;
+}
+
+.job-type-badge {
+    font-size: 0.78em;
+    padding: 0.35em 0.7em;
+    border-radius: 0.25rem;
+    background-color: var(--fg);
+    color: var(--primary-text);
+}
+
+/* ==========================================
+   HERO SECTION
+   ========================================== */
+
+.hero {
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.01));
+    border-radius: 0.5rem;
+}
+
+.hero .hero-title {
+    font-size: 2rem;
+}
+
+/* ==========================================
+   UTILITY & THEME CLASSES
+   ========================================== */
+
+.bg-primary {
+    background-color: var(--primary-bg) !important;
+    color: var(--primary-text) !important;
+}
+
+.text-white {
+    color: var(--primary-text) !important;
+}
+
+header .nav-link {
+    font-weight: 500;
+}
+
+/* ==========================================
+   RESPONSIVE DESIGN
+   ========================================== */
+
+@media (max-width: 768px) {
+    .site-header .navbar-brand {
+        font-size: 1.2rem;
+    }
+
+    .site-header .nav-link {
+        font-size: 0.9rem;
+        margin: 0.25rem 0;
+    }
+}
 @media (max-width: 576px) {
     .hero .hero-title { font-size: 1.4rem; }
 }

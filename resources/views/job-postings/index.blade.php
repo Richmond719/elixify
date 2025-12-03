@@ -8,6 +8,66 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+    <style>
+        /* SweetAlert2 Black and White Theme */
+        .swal2-popup {
+            background-color: #fff !important;
+            border: 2px solid #111 !important;
+            border-radius: 12px !important;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3) !important;
+        }
+        .swal2-title {
+            color: #111 !important;
+            font-weight: 700 !important;
+        }
+        .swal2-html-container {
+            color: #333 !important;
+        }
+        .swal2-confirm {
+            background-color: #111 !important;
+            border-color: #111 !important;
+            color: #fff !important;
+            font-weight: 600 !important;
+        }
+        .swal2-confirm:hover {
+            background-color: #333 !important;
+            border-color: #333 !important;
+        }
+        .swal2-cancel {
+            background-color: #f0f0f0 !important;
+            border-color: #ddd !important;
+            color: #111 !important;
+            font-weight: 600 !important;
+        }
+        .swal2-cancel:hover {
+            background-color: #e0e0e0 !important;
+            border-color: #bbb !important;
+        }
+        .swal2-icon {
+            border-color: #111 !important;
+        }
+        .swal2-icon.swal2-success .swal2-success-ring {
+            border-color: #111 !important;
+        }
+        .swal2-icon.swal2-success [class*=swal2-success-line] {
+            background-color: #111 !important;
+        }
+        .swal2-icon.swal2-error [class*=swal2-x-mark] line {
+            stroke: #111 !important;
+        }
+        .swal2-icon.swal2-warning {
+            border-color: #111 !important;
+            color: #111 !important;
+        }
+        .swal2-icon.swal2-info {
+            border-color: #111 !important;
+            color: #111 !important;
+        }
+        .swal2-icon.swal2-question {
+            border-color: #111 !important;
+            color: #111 !important;
+        }
+    </style>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -510,7 +570,7 @@
     </div>
 
     <!-- Footer -->
-    <footer style="position: relative; overflow: hidden; background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 100%); color: #fff; margin-top: 0;">
+    <footer style="position: relative; overflow: hidden; background: rgba(0, 0, 0, 0.5); color: #fff; margin-top: 0; backdrop-filter: blur(5px);">
         <!-- Video Background -->
         <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: 1;">
             <video autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover; opacity: 0.15;">
@@ -519,7 +579,7 @@
         </div>
 
         <!-- Animated Gradient Overlay -->
-        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 20% 50%, rgba(0, 0, 0, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(0, 0, 0, 0.1) 0%, transparent 50%); z-index: 1;"></div>
+        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: transparent; z-index: 1;"></div>
 
         <!-- Footer Content -->
         <div style="position: relative; z-index: 2; padding: 1.5rem 2rem 1rem; max-width: 1400px; margin: 0 auto;">
@@ -544,37 +604,37 @@
             </div>
 
             <!-- Navigation Grid - Centered -->
-            <div class="navigation-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-bottom: 2rem; max-width: 900px; margin-left: auto; margin-right: auto;">
+            <div class="navigation-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1rem, 4vw, 2rem); margin-bottom: 2rem; width: 100%;">
                 <!-- For Job Seekers -->
-                <div class="nav-column" style="text-align: center;">
-                    <h4 style="font-weight: 700; margin-bottom: 1rem; font-size: 0.95rem; color: #60a5fa; text-transform: uppercase; letter-spacing: 0.5px;">Job Seekers</h4>
-                    <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.6rem; font-size: 0.9rem;">
-                        <li><a href="{{ route('job-postings.index') }}" style="color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.3s;" onmouseover="this.style.color='#60a5fa'; this.style.paddingLeft='0.5rem';" onmouseout="this.style.color='rgba(255,255,255,0.7)'; this.style.paddingLeft='0';">Browse Jobs</a></li>
-                        <li><a href="{{ Auth::check() ? route('job-applications.index') : route('auth.login.page') }}" style="color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.3s;" onmouseover="this.style.color='#60a5fa'; this.style.paddingLeft='0.5rem';" onmouseout="this.style.color='rgba(255,255,255,0.7)'; this.style.paddingLeft='0';">My Applications</a></li>
-                        <li><a href="#" style="color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.3s;" onmouseover="this.style.color='#60a5fa'; this.style.paddingLeft='0.5rem';" onmouseout="this.style.color='rgba(255,255,255,0.7)'; this.style.paddingLeft='0';">Career Tips</a></li>
-                        <li><a href="#" style="color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.3s;" onmouseover="this.style.color='#60a5fa'; this.style.paddingLeft='0.5rem';" onmouseout="this.style.color='rgba(255,255,255,0.7)'; this.style.paddingLeft='0';">Profile Builder</a></li>
+                <div class="nav-column" style="text-align: center; display: flex; flex-direction: column; align-items: center;">
+                    <h4 style="font-weight: 700; margin-bottom: 1rem; font-size: clamp(0.8rem, 2.5vw, 0.95rem); color: #fff; text-transform: uppercase; letter-spacing: 0.5px; align-self: center;">Job Seekers</h4>
+                    <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.6rem; font-size: clamp(0.8rem, 2vw, 0.9rem); align-items: center; width: 100%; justify-content: center;">
+                        <li><a href="{{ route('job-postings.index') }}" style="color: #fff; text-decoration: none; transition: all 0.3s; display: inline-block;" onmouseover="this.style.color='#60a5fa'; this.style.paddingLeft='0.5rem';" onmouseout="this.style.color='#fff'; this.style.paddingLeft='0';">Browse Jobs</a></li>
+                        <li><a href="{{ Auth::check() ? route('job-applications.index') : route('auth.login.page') }}" style="color: #fff; text-decoration: none; transition: all 0.3s; display: inline-block;" onmouseover="this.style.color='#60a5fa'; this.style.paddingLeft='0.5rem';" onmouseout="this.style.color='#fff'; this.style.paddingLeft='0';">My Applications</a></li>
+                        <li><a href="#" style="color: #fff; text-decoration: none; transition: all 0.3s; display: inline-block;" onmouseover="this.style.color='#60a5fa'; this.style.paddingLeft='0.5rem';" onmouseout="this.style.color='#fff'; this.style.paddingLeft='0';">Career Tips</a></li>
+                        <li><a href="#" style="color: #fff; text-decoration: none; transition: all 0.3s; display: inline-block;" onmouseover="this.style.color='#60a5fa'; this.style.paddingLeft='0.5rem';" onmouseout="this.style.color='#fff'; this.style.paddingLeft='0';">Profile Builder</a></li>
                     </ul>
                 </div>
 
                 <!-- For Companies -->
-                <div class="nav-column" style="text-align: center;">
-                    <h4 style="font-weight: 700; margin-bottom: 1rem; font-size: 0.95rem; color: #60a5fa; text-transform: uppercase; letter-spacing: 0.5px;">Companies</h4>
-                    <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.6rem; font-size: 0.9rem;">
-                        <li><a href="{{ Auth::check() && Auth::user()->isAdmin() ? route('admin.job-postings.create') : route('auth.login.page') }}" style="color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.3s;" onmouseover="this.style.color='#60a5fa'; this.style.paddingLeft='0.5rem';" onmouseout="this.style.color='rgba(255,255,255,0.7)'; this.style.paddingLeft='0';">Post Job</a></li>
-                        <li><a href="{{ Auth::check() && Auth::user()->isAdmin() ? route('admin.dashboard') : route('auth.login.page') }}" style="color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.3s;" onmouseover="this.style.color='#60a5fa'; this.style.paddingLeft='0.5rem';" onmouseout="this.style.color='rgba(255,255,255,0.7)'; this.style.paddingLeft='0';">Dashboard</a></li>
-                        <li><a href="#" style="color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.3s;" onmouseover="this.style.color='#60a5fa'; this.style.paddingLeft='0.5rem';" onmouseout="this.style.color='rgba(255,255,255,0.7)'; this.style.paddingLeft='0';">Pricing</a></li>
-                        <li><a href="#" style="color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.3s;" onmouseover="this.style.color='#60a5fa'; this.style.paddingLeft='0.5rem';" onmouseout="this.style.color='rgba(255,255,255,0.7)'; this.style.paddingLeft='0';">Resources</a></li>
+                <div class="nav-column" style="text-align: center; display: flex; flex-direction: column; align-items: center;">
+                    <h4 style="font-weight: 700; margin-bottom: 1rem; font-size: clamp(0.8rem, 2.5vw, 0.95rem); color: #fff; text-transform: uppercase; letter-spacing: 0.5px; align-self: center;">Companies</h4>
+                    <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.6rem; font-size: clamp(0.8rem, 2vw, 0.9rem); align-items: center; width: 100%; justify-content: center;">
+                        <li><a href="{{ Auth::check() && Auth::user()->isAdmin() ? route('admin.job-postings.create') : route('auth.login.page') }}" style="color: #fff; text-decoration: none; transition: all 0.3s; display: inline-block;" onmouseover="this.style.color='#60a5fa'; this.style.paddingLeft='0.5rem';" onmouseout="this.style.color='#fff'; this.style.paddingLeft='0';">Post Job</a></li>
+                        <li><a href="{{ Auth::check() && Auth::user()->isAdmin() ? route('admin.dashboard') : route('auth.login.page') }}" style="color: #fff; text-decoration: none; transition: all 0.3s; display: inline-block;" onmouseover="this.style.color='#60a5fa'; this.style.paddingLeft='0.5rem';" onmouseout="this.style.color='#fff'; this.style.paddingLeft='0';">Dashboard</a></li>
+                        <li><a href="#" style="color: #fff; text-decoration: none; transition: all 0.3s; display: inline-block;" onmouseover="this.style.color='#60a5fa'; this.style.paddingLeft='0.5rem';" onmouseout="this.style.color='#fff'; this.style.paddingLeft='0';">Pricing</a></li>
+                        <li><a href="#" style="color: #fff; text-decoration: none; transition: all 0.3s; display: inline-block;" onmouseover="this.style.color='#60a5fa'; this.style.paddingLeft='0.5rem';" onmouseout="this.style.color='#fff'; this.style.paddingLeft='0';">Resources</a></li>
                     </ul>
                 </div>
 
                 <!-- Legal & Support -->
-                <div class="nav-column" style="text-align: center;">
-                    <h4 style="font-weight: 700; margin-bottom: 1rem; font-size: 0.95rem; color: #60a5fa; text-transform: uppercase; letter-spacing: 0.5px;">Support</h4>
-                    <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.6rem; font-size: 0.9rem;">
-                        <li><a href="#" style="color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.3s;" onmouseover="this.style.color='#60a5fa'; this.style.paddingLeft='0.5rem';" onmouseout="this.style.color='rgba(255,255,255,0.7)'; this.style.paddingLeft='0';">Privacy Policy</a></li>
-                        <li><a href="#" style="color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.3s;" onmouseover="this.style.color='#60a5fa'; this.style.paddingLeft='0.5rem';" onmouseout="this.style.color='rgba(255,255,255,0.7)'; this.style.paddingLeft='0';">Terms of Service</a></li>
-                        <li><a href="#" style="color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.3s;" onmouseover="this.style.color='#60a5fa'; this.style.paddingLeft='0.5rem';" onmouseout="this.style.color='rgba(255,255,255,0.7)'; this.style.paddingLeft='0';">Contact Us</a></li>
-                        <li><a href="#" style="color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.3s;" onmouseover="this.style.color='#60a5fa'; this.style.paddingLeft='0.5rem';" onmouseout="this.style.color='rgba(255,255,255,0.7)'; this.style.paddingLeft='0';">FAQ</a></li>
+                <div class="nav-column" style="text-align: center; display: flex; flex-direction: column; align-items: center;">
+                    <h4 style="font-weight: 700; margin-bottom: 1rem; font-size: clamp(0.8rem, 2.5vw, 0.95rem); color: #fff; text-transform: uppercase; letter-spacing: 0.5px; align-self: center;">Support</h4>
+                    <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.6rem; font-size: clamp(0.8rem, 2vw, 0.9rem); align-items: center; width: 100%; justify-content: center;">
+                        <li><a href="#" style="color: #fff; text-decoration: none; transition: all 0.3s; display: inline-block;" onmouseover="this.style.color='#60a5fa'; this.style.paddingLeft='0.5rem';" onmouseout="this.style.color='#fff'; this.style.paddingLeft='0';">Privacy Policy</a></li>
+                        <li><a href="#" style="color: #fff; text-decoration: none; transition: all 0.3s; display: inline-block;" onmouseover="this.style.color='#60a5fa'; this.style.paddingLeft='0.5rem';" onmouseout="this.style.color='#fff'; this.style.paddingLeft='0';">Terms of Service</a></li>
+                        <li><a href="#" style="color: #fff; text-decoration: none; transition: all 0.3s; display: inline-block;" onmouseover="this.style.color='#60a5fa'; this.style.paddingLeft='0.5rem';" onmouseout="this.style.color='#fff'; this.style.paddingLeft='0';">Contact Us</a></li>
+                        <li><a href="#" style="color: #fff; text-decoration: none; transition: all 0.3s; display: inline-block;" onmouseover="this.style.color='#60a5fa'; this.style.paddingLeft='0.5rem';" onmouseout="this.style.color='#fff'; this.style.paddingLeft='0';">FAQ</a></li>
                     </ul>
                 </div>
             </div>
@@ -603,7 +663,9 @@
                 icon: 'success',
                 timer: 2000,
                 timerProgressBar: true,
-                showConfirmButton: false
+                showConfirmButton: false,
+                background: '#fff',
+                color: '#111'
             });
         @endif
 
@@ -619,9 +681,11 @@
                             text: 'Are you sure you want to submit your application?',
                             icon: 'question',
                             showCancelButton: true,
-                            confirmButtonColor: '#3085d6',
-                            cancelButtonColor: '#d33',
-                            confirmButtonText: 'Yes, apply!'
+                            confirmButtonColor: '#111',
+                            cancelButtonColor: '#f0f0f0',
+                            confirmButtonText: 'Yes, apply!',
+                            background: '#fff',
+                            color: '#111'
                         }).then((result) => {
                             if (result.isConfirmed) {
                                 this.closest('form').submit();

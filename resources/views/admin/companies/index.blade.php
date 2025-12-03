@@ -169,9 +169,11 @@
                 text: "You won't be able to revert this!",
                 icon: "warning",
                 showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, delete it!"
+                confirmButtonColor: "#111",
+                cancelButtonColor: "#f0f0f0",
+                confirmButtonText: "Yes, delete it!",
+                background: '#fff',
+                color: '#111'
             }).then((result) => {
                 if (result.isConfirmed) {
                     const form = document.getElementById('delete-form-' + id);

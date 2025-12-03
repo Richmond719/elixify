@@ -7,6 +7,66 @@
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 	<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+	<style>
+		/* SweetAlert2 Black and White Theme */
+		.swal2-popup {
+			background-color: #fff !important;
+			border: 2px solid #111 !important;
+			border-radius: 12px !important;
+			box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3) !important;
+		}
+		.swal2-title {
+			color: #111 !important;
+			font-weight: 700 !important;
+		}
+		.swal2-html-container {
+			color: #333 !important;
+		}
+		.swal2-confirm {
+			background-color: #111 !important;
+			border-color: #111 !important;
+			color: #fff !important;
+			font-weight: 600 !important;
+		}
+		.swal2-confirm:hover {
+			background-color: #333 !important;
+			border-color: #333 !important;
+		}
+		.swal2-cancel {
+			background-color: #f0f0f0 !important;
+			border-color: #ddd !important;
+			color: #111 !important;
+			font-weight: 600 !important;
+		}
+		.swal2-cancel:hover {
+			background-color: #e0e0e0 !important;
+			border-color: #bbb !important;
+		}
+		.swal2-icon {
+			border-color: #111 !important;
+		}
+		.swal2-icon.swal2-success .swal2-success-ring {
+			border-color: #111 !important;
+		}
+		.swal2-icon.swal2-success [class*=swal2-success-line] {
+			background-color: #111 !important;
+		}
+		.swal2-icon.swal2-error [class*=swal2-x-mark] line {
+			stroke: #111 !important;
+		}
+		.swal2-icon.swal2-warning {
+			border-color: #111 !important;
+			color: #111 !important;
+		}
+		.swal2-icon.swal2-info {
+			border-color: #111 !important;
+			color: #111 !important;
+		}
+		.swal2-icon.swal2-question {
+			border-color: #111 !important;
+			color: #111 !important;
+		}
+	</style>
 	<link rel="stylesheet" href="{{ asset('css/style.css') }}">
 	<style>
 		* { margin: 0; padding: 0; box-sizing: border-box; }
@@ -96,18 +156,20 @@
 			flex-direction: column;
 		}
 
-		.auth-wrap{ position:relative; z-index:2; width:100%; max-width:520px; padding:1rem; }
+		.auth-wrap{ position:relative; z-index:2; width:100%; max-width:560px; padding:1rem; }
 
 		.card-auth{
 			position:relative; overflow:hidden;
-			background: #fff url('/img/auth-form-bg.svg') center/cover no-repeat;
-			color:#111; border-radius:12px; padding:2.2rem; box-shadow:0 10px 30px rgba(0,0,0,0.4);
-			border: 1px solid rgba(0,0,0,0.06);
+			background: rgba(255, 255, 255, 0.1);
+			color:#111; border-radius:20px; padding:2.2rem;
+			backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+			border: 1px solid rgba(255, 255, 255, 0.2);
+			box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15), inset 0 0 20px rgba(255, 255, 255, 0.1);
 		}
 
-		.card-media{ position:absolute; inset:0; z-index:0 }
+		.card-media{ position:absolute; inset:0; z-index:0; display:none; }
 		.card-media img, .card-media video{ width:100%; height:100%; object-fit:cover; display:block; filter:grayscale(100%) contrast(0.95) brightness(0.98) }
-		.card-overlay{ position:absolute; inset:0; background:rgba(255,255,255,0.86); z-index:1 }
+		.card-overlay{ position:absolute; inset:0; background:transparent; z-index:1 }
 		.card-content{ position:relative; z-index:2 }
 
 		.brand{ font-weight:800; font-size:1.6rem; letter-spacing:0.2px; }
@@ -133,9 +195,37 @@
 		.error{ background: #fff1f1; border:1px solid #ffd6d6; color:#721c24; padding:0.9rem; border-radius:8px; margin-bottom:1rem }
 
 		@media (max-width:480px){ .card-auth{ padding:1.2rem } .brand{ font-size:1.3rem } }
+
+		/* Vanta.js Background */
+		#background-canvas {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100vh;
+			z-index: 0;
+		}
+
+		/* Ensure header is visible */
+		.site-header {
+			position: relative !important;
+			z-index: 1000 !important;
+		}
+
+		/* Ensure main content and footer are visible */
+		header, main, .container, footer, .footer {
+			position: relative;
+			z-index: 1;
+		}
+
+		/* Footer specific z-index */
+		footer {
+			z-index: 10 !important;
+		}
 	</style>
 </head>
 <body>
+	<div id="background-canvas"></div>
 	<header class="site-header navbar navbar-expand-lg navbar-dark">
 		<div class="container-fluid px-4">
 			<a class="navbar-brand" href="{{ url('/') }}">
@@ -157,12 +247,7 @@
 	<div class="auth-page-content">
 		<div class="auth-wrap">
 			<div class="card-auth">
-			<div class="card-media">
-				<video autoplay muted loop playsinline preload="auto">
-					<source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4">
-					Your browser does not support the video tag.
-				</video>
-			</div>
+			<div class="card-media"></div>
 		<div class="card-overlay"></div>
 		<div class="card-content">
 			<div class="brand">Elixify</div>
@@ -187,12 +272,25 @@
 				@csrf
 
 			<div class="mb-3">
-				<label for="role" class="form-label">Select Role</label>
-				<select id="role" name="role" required class="form-input" style="cursor: pointer;">
-					<option value="">-- Choose your role --</option>
-					<option value="admin" {{ old('role') === 'admin' ? 'selected' : '' }}>Admin</option>
-					<option value="job_seeker" {{ old('role') === 'job_seeker' ? 'selected' : '' }}>Job Seeker</option>
-				</select>
+				<label class="form-label">Select Role</label>
+				<input type="hidden" id="role" name="role" value="{{ old('role') }}" required>
+
+				<div class="role-selection" role="list" style="display:flex;gap:0.6rem;margin-top:0.6rem">
+					<div class="role-card" tabindex="0" data-role="admin" aria-pressed="false" role="listitem">
+						<div class="role-card-icon"><i class="bi bi-clipboard-check-fill"></i></div>
+						<div class="role-card-title">Admin</div>
+						<div class="role-card-desc">Manage jobs and applicants</div>
+						<div class="role-card-check" aria-hidden>✓</div>
+					</div>
+
+					<div class="role-card" tabindex="0" data-role="job_seeker" aria-pressed="false" role="listitem">
+						<div class="role-card-icon"><i class="bi bi-person-check-fill"></i></div>
+						<div class="role-card-title">Job Seeker</div>
+						<div class="role-card-desc">Find and apply to jobs</div>
+						<div class="role-card-check" aria-hidden>✓</div>
+					</div>
+				</div>
+
 				@error('role')
 					<div style="color:#d32f2f;font-size:0.78rem;margin-top:0.3rem">{{ $message }}</div>
 				@enderror
@@ -222,13 +320,43 @@
 			<button type="submit" class="btn-submit">Sign In</button>
 		</form>
 
+		<style>
+			.role-card{background:#fff;border-radius:10px;padding:0.6rem 0.8rem;display:flex;flex-direction:column;align-items:flex-start;gap:6px;border:1px solid rgba(0,0,0,0.06);cursor:pointer;box-shadow:0 2px 6px rgba(16,24,40,0.04);min-width:170px}
+			.role-card:focus{outline:2px solid #6b46c1;outline-offset:2px}
+			.role-card[aria-pressed="true"]{border-color:#6b46c1;background:linear-gradient(180deg,rgba(107,70,193,0.06),#fff)}
+			.role-card-icon{font-size:1.2rem;color:#6b46c1}
+			.role-card-title{font-weight:600;font-size:0.95rem}
+			.role-card-desc{font-size:0.78rem;color:#556167}
+			.role-card-check{margin-left:auto;color:#2f855a;font-weight:700;display:none}
+			.role-card[aria-pressed="true"] .role-card-check{display:block}
+		</style>
+
+		<script>
+			(function(){
+				var cards = document.querySelectorAll('.role-card');
+				var roleInput = document.getElementById('role');
+				var initialRole = @json(old('role')) || '';
+				function selectCard(card){
+					cards.forEach(function(c){ c.setAttribute('aria-pressed','false'); });
+					card.setAttribute('aria-pressed','true');
+					var val = card.getAttribute('data-role');
+					if(roleInput) roleInput.value = val;
+				}
+				cards.forEach(function(card){
+					card.addEventListener('click', function(){ selectCard(card); });
+					card.addEventListener('keydown', function(e){ if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); selectCard(card); }});
+				});
+				if(initialRole){ var pre = document.querySelector('.role-card[data-role="'+initialRole+'"]'); if(pre) selectCard(pre); }
+			})();
+		</script>
+
 		<div class="alt-line">New to Elixify? <a href="{{ route('auth.register.page') }}">Create a free account</a></div>
 			</div>
 		</div>
 	</div>
 	</div>
 
-	<footer style="position: relative; overflow: hidden; background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 100%); color: #fff; margin-top: 0;">
+	<footer style="position: relative; overflow: hidden; background: rgba(0, 0, 0, 0.5); color: #fff; margin-top: 0; backdrop-filter: blur(5px);">
 		<!-- Video Background -->
 		<div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: 1;">
 			<video autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover; opacity: 0.15;">
@@ -237,7 +365,7 @@
 		</div>
 
 		<!-- Animated Gradient Overlay -->
-		<div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 20% 50%, rgba(0, 0, 0, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 80%, rgba(0, 0, 0, 0.1) 0%, transparent 50%); z-index: 1;"></div>
+		<div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: transparent; z-index: 1;"></div>
 
 		<!-- Footer Content -->
 		<div style="position: relative; z-index: 2; padding: 1.5rem 2rem 1rem; max-width: 1400px; margin: 0 auto;">
@@ -262,37 +390,37 @@
 			</div>
 
 			<!-- Navigation Grid - Centered -->
-			<div class="navigation-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-bottom: 2rem; max-width: 900px; margin-left: auto; margin-right: auto;">
+			<div class="navigation-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1rem, 4vw, 2rem); margin-bottom: 2rem; width: 100%;">
 				<!-- For Job Seekers -->
-				<div class="nav-column" style="text-align: center;">
-					<h4 style="font-weight: 700; margin-bottom: 1rem; font-size: 0.95rem; color: #60a5fa; text-transform: uppercase; letter-spacing: 0.5px;">Job Seekers</h4>
-					<ul style="list-style: none; display: flex; flex-direction: column; gap: 0.6rem; font-size: 0.9rem;">
-						<li><a href="{{ route('job-postings.index') }}" style="color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.3s;" onmouseover="this.style.color='#60a5fa'; this.style.paddingLeft='0.5rem';" onmouseout="this.style.color='rgba(255,255,255,0.7)'; this.style.paddingLeft='0';">Browse Jobs</a></li>
-						<li><a href="{{ route('auth.login.page') }}" style="color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.3s;" onmouseover="this.style.color='#60a5fa'; this.style.paddingLeft='0.5rem';" onmouseout="this.style.color='rgba(255,255,255,0.7)'; this.style.paddingLeft='0';">My Applications</a></li>
-						<li><a href="#" style="color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.3s;" onmouseover="this.style.color='#60a5fa'; this.style.paddingLeft='0.5rem';" onmouseout="this.style.color='rgba(255,255,255,0.7)'; this.style.paddingLeft='0';">Career Tips</a></li>
-						<li><a href="#" style="color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.3s;" onmouseover="this.style.color='#60a5fa'; this.style.paddingLeft='0.5rem';" onmouseout="this.style.color='rgba(255,255,255,0.7)'; this.style.paddingLeft='0';">Profile Builder</a></li>
+				<div class="nav-column" style="text-align: center; display: flex; flex-direction: column; align-items: center;">
+					<h4 style="font-weight: 700; margin-bottom: 1rem; font-size: clamp(0.8rem, 2.5vw, 0.95rem); color: #fff; text-transform: uppercase; letter-spacing: 0.5px; align-self: center;">Job Seekers</h4>
+					<ul style="list-style: none; display: flex; flex-direction: column; gap: 0.6rem; font-size: clamp(0.8rem, 2vw, 0.9rem); align-items: center; width: 100%; justify-content: center;">
+						<li><a href="{{ route('job-postings.index') }}" style="color: #fff; text-decoration: none; transition: all 0.3s; display: inline-block;" onmouseover="this.style.color='#60a5fa'; this.style.paddingLeft='0.5rem';" onmouseout="this.style.color='#fff'; this.style.paddingLeft='0';">Browse Jobs</a></li>
+						<li><a href="{{ route('auth.login.page') }}" style="color: #fff; text-decoration: none; transition: all 0.3s; display: inline-block;" onmouseover="this.style.color='#60a5fa'; this.style.paddingLeft='0.5rem';" onmouseout="this.style.color='#fff'; this.style.paddingLeft='0';">My Applications</a></li>
+						<li><a href="#" style="color: #fff; text-decoration: none; transition: all 0.3s; display: inline-block;" onmouseover="this.style.color='#60a5fa'; this.style.paddingLeft='0.5rem';" onmouseout="this.style.color='#fff'; this.style.paddingLeft='0';">Career Tips</a></li>
+						<li><a href="#" style="color: #fff; text-decoration: none; transition: all 0.3s; display: inline-block;" onmouseover="this.style.color='#60a5fa'; this.style.paddingLeft='0.5rem';" onmouseout="this.style.color='#fff'; this.style.paddingLeft='0';">Profile Builder</a></li>
 					</ul>
 				</div>
 
 				<!-- For Companies -->
-				<div class="nav-column" style="text-align: center;">
-					<h4 style="font-weight: 700; margin-bottom: 1rem; font-size: 0.95rem; color: #60a5fa; text-transform: uppercase; letter-spacing: 0.5px;">Companies</h4>
-					<ul style="list-style: none; display: flex; flex-direction: column; gap: 0.6rem; font-size: 0.9rem;">
-						<li><a href="{{ route('auth.login.page') }}" style="color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.3s;" onmouseover="this.style.color='#60a5fa'; this.style.paddingLeft='0.5rem';" onmouseout="this.style.color='rgba(255,255,255,0.7)'; this.style.paddingLeft='0';">Post Job</a></li>
-						<li><a href="{{ route('auth.login.page') }}" style="color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.3s;" onmouseover="this.style.color='#60a5fa'; this.style.paddingLeft='0.5rem';" onmouseout="this.style.color='rgba(255,255,255,0.7)'; this.style.paddingLeft='0';">Dashboard</a></li>
-						<li><a href="#" style="color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.3s;" onmouseover="this.style.color='#60a5fa'; this.style.paddingLeft='0.5rem';" onmouseout="this.style.color='rgba(255,255,255,0.7)'; this.style.paddingLeft='0';">Pricing</a></li>
-						<li><a href="#" style="color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.3s;" onmouseover="this.style.color='#60a5fa'; this.style.paddingLeft='0.5rem';" onmouseout="this.style.color='rgba(255,255,255,0.7)'; this.style.paddingLeft='0';">Resources</a></li>
+				<div class="nav-column" style="text-align: center; display: flex; flex-direction: column; align-items: center;">
+					<h4 style="font-weight: 700; margin-bottom: 1rem; font-size: clamp(0.8rem, 2.5vw, 0.95rem); color: #fff; text-transform: uppercase; letter-spacing: 0.5px; align-self: center;">Companies</h4>
+					<ul style="list-style: none; display: flex; flex-direction: column; gap: 0.6rem; font-size: clamp(0.8rem, 2vw, 0.9rem); align-items: center; width: 100%; justify-content: center;">
+						<li><a href="{{ route('auth.login.page') }}" style="color: #fff; text-decoration: none; transition: all 0.3s; display: inline-block;" onmouseover="this.style.color='#60a5fa'; this.style.paddingLeft='0.5rem';" onmouseout="this.style.color='#fff'; this.style.paddingLeft='0';">Post Job</a></li>
+						<li><a href="{{ route('auth.login.page') }}" style="color: #fff; text-decoration: none; transition: all 0.3s; display: inline-block;" onmouseover="this.style.color='#60a5fa'; this.style.paddingLeft='0.5rem';" onmouseout="this.style.color='#fff'; this.style.paddingLeft='0';">Dashboard</a></li>
+						<li><a href="#" style="color: #fff; text-decoration: none; transition: all 0.3s; display: inline-block;" onmouseover="this.style.color='#60a5fa'; this.style.paddingLeft='0.5rem';" onmouseout="this.style.color='#fff'; this.style.paddingLeft='0';">Pricing</a></li>
+						<li><a href="#" style="color: #fff; text-decoration: none; transition: all 0.3s; display: inline-block;" onmouseover="this.style.color='#60a5fa'; this.style.paddingLeft='0.5rem';" onmouseout="this.style.color='#fff'; this.style.paddingLeft='0';">Resources</a></li>
 					</ul>
 				</div>
 
 				<!-- Legal & Support -->
-				<div class="nav-column" style="text-align: center;">
-					<h4 style="font-weight: 700; margin-bottom: 1rem; font-size: 0.95rem; color: #60a5fa; text-transform: uppercase; letter-spacing: 0.5px;">Support</h4>
-					<ul style="list-style: none; display: flex; flex-direction: column; gap: 0.6rem; font-size: 0.9rem;">
-						<li><a href="#" style="color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.3s;" onmouseover="this.style.color='#60a5fa'; this.style.paddingLeft='0.5rem';" onmouseout="this.style.color='rgba(255,255,255,0.7)'; this.style.paddingLeft='0';">Privacy Policy</a></li>
-						<li><a href="#" style="color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.3s;" onmouseover="this.style.color='#60a5fa'; this.style.paddingLeft='0.5rem';" onmouseout="this.style.color='rgba(255,255,255,0.7)'; this.style.paddingLeft='0';">Terms of Service</a></li>
-						<li><a href="#" style="color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.3s;" onmouseover="this.style.color='#60a5fa'; this.style.paddingLeft='0.5rem';" onmouseout="this.style.color='rgba(255,255,255,0.7)'; this.style.paddingLeft='0';">Contact Us</a></li>
-						<li><a href="#" style="color: rgba(255,255,255,0.7); text-decoration: none; transition: all 0.3s;" onmouseover="this.style.color='#60a5fa'; this.style.paddingLeft='0.5rem';" onmouseout="this.style.color='rgba(255,255,255,0.7)'; this.style.paddingLeft='0';">FAQ</a></li>
+				<div class="nav-column" style="text-align: center; display: flex; flex-direction: column; align-items: center;">
+					<h4 style="font-weight: 700; margin-bottom: 1rem; font-size: clamp(0.8rem, 2.5vw, 0.95rem); color: #fff; text-transform: uppercase; letter-spacing: 0.5px; align-self: center;">Support</h4>
+					<ul style="list-style: none; display: flex; flex-direction: column; gap: 0.6rem; font-size: clamp(0.8rem, 2vw, 0.9rem); align-items: center; width: 100%; justify-content: center;">
+						<li><a href="#" style="color: #fff; text-decoration: none; transition: all 0.3s; display: inline-block;" onmouseover="this.style.color='#60a5fa'; this.style.paddingLeft='0.5rem';" onmouseout="this.style.color='#fff'; this.style.paddingLeft='0';">Privacy Policy</a></li>
+						<li><a href="#" style="color: #fff; text-decoration: none; transition: all 0.3s; display: inline-block;" onmouseover="this.style.color='#60a5fa'; this.style.paddingLeft='0.5rem';" onmouseout="this.style.color='#fff'; this.style.paddingLeft='0';">Terms of Service</a></li>
+						<li><a href="#" style="color: #fff; text-decoration: none; transition: all 0.3s; display: inline-block;" onmouseover="this.style.color='#60a5fa'; this.style.paddingLeft='0.5rem';" onmouseout="this.style.color='#fff'; this.style.paddingLeft='0';">Contact Us</a></li>
+						<li><a href="#" style="color: #fff; text-decoration: none; transition: all 0.3s; display: inline-block;" onmouseover="this.style.color='#60a5fa'; this.style.paddingLeft='0.5rem';" onmouseout="this.style.color='#fff'; this.style.paddingLeft='0';">FAQ</a></li>
 					</ul>
 				</div>
 			</div>
@@ -312,7 +440,29 @@
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script src="{{ asset('js/interactive-background.js') }}"></script>
 	<script>
+		// Role selection card handler (click + keyboard)
+		(function(){
+			const roleInput = document.querySelector('#role');
+			if (!roleInput) return;
+			const cards = document.querySelectorAll('.role-card');
+			cards.forEach((card) => {
+				card.setAttribute('tabindex', '0');
+				card.addEventListener('click', function() {
+					cards.forEach(c => c.classList.remove('selected'));
+					this.classList.add('selected');
+					roleInput.value = this.getAttribute('data-role');
+				});
+				card.addEventListener('keydown', function(e) {
+					if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); this.click(); }
+				});
+			});
+			// set initial value if server preselected a card
+			const initial = document.querySelector('.role-card.selected');
+			if (initial && !roleInput.value) roleInput.value = initial.getAttribute('data-role');
+		})();
+
 		@if($errors->any())
 			Swal.fire({
 				title: 'Login Failed',

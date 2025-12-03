@@ -77,6 +77,66 @@
         })();
     </script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <style>
+            /* SweetAlert2 Black and White Theme for Admin */
+            .swal2-popup {
+                background-color: #fff !important;
+                border: 2px solid #111 !important;
+                border-radius: 12px !important;
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3) !important;
+            }
+            .swal2-title {
+                color: #111 !important;
+                font-weight: 700 !important;
+            }
+            .swal2-html-container {
+                color: #333 !important;
+            }
+            .swal2-confirm {
+                background-color: #111 !important;
+                border-color: #111 !important;
+                color: #fff !important;
+                font-weight: 600 !important;
+            }
+            .swal2-confirm:hover {
+                background-color: #333 !important;
+                border-color: #333 !important;
+            }
+            .swal2-cancel {
+                background-color: #f0f0f0 !important;
+                border-color: #ddd !important;
+                color: #111 !important;
+                font-weight: 600 !important;
+            }
+            .swal2-cancel:hover {
+                background-color: #e0e0e0 !important;
+                border-color: #bbb !important;
+            }
+            .swal2-icon {
+                border-color: #111 !important;
+            }
+            .swal2-icon.swal2-success .swal2-success-ring {
+                border-color: #111 !important;
+            }
+            .swal2-icon.swal2-success [class*=swal2-success-line] {
+                background-color: #111 !important;
+            }
+            .swal2-icon.swal2-error [class*=swal2-x-mark] line {
+                stroke: #111 !important;
+            }
+            .swal2-icon.swal2-warning {
+                border-color: #111 !important;
+                color: #111 !important;
+            }
+            .swal2-icon.swal2-info {
+                border-color: #111 !important;
+                color: #111 !important;
+            }
+            .swal2-icon.swal2-question {
+                border-color: #111 !important;
+                color: #111 !important;
+            }
+        </style>
         <script>
             @session('status')
                 const isError = Boolean({{ isset($value['error']) && $value['error'] == true }})
@@ -84,7 +144,10 @@
                     title: isError ? 'Error!' : 'Success',
                     text: "{{ $value['message'] ?? 'Done' }}",
                     icon: isError ? 'error' : 'success',
-                    confirmButtonText: 'OK'
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#111',
+                    background: '#fff',
+                    color: '#111'
                 })
             @endsession
         </script>
@@ -124,9 +187,11 @@
                 title: "Are you sure you want to logout?",
                 icon: "warning",
                 showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Yes, log out!"
+                confirmButtonColor: "#111",
+                cancelButtonColor: "#f0f0f0",
+                confirmButtonText: "Yes, log out!",
+                background: '#fff',
+                color: '#111'
             }).then((result) => {
                 if (result.isConfirmed) {
                     const form = document.getElementById('logoutForm');
