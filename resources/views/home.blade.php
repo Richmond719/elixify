@@ -1000,11 +1000,7 @@ use Illuminate\Support\Facades\Auth;
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item"><a class="nav-link active" href="{{ url('/') }}">Home</a></li>
                     @auth
-                        @if(Auth::user()->isAdmin())
-                            <li class="nav-item"><a class="nav-link" href="{{ route('admin.job-postings.index') }}">Job Postings</a></li>
-                            <li class="nav-item"><a class="nav-link" href="{{ route('admin.companies.index') }}">Companies</a></li>
-                            <li class="nav-item"><a class="nav-link" href="{{ route('admin.job-applications.index') }}">Applications</a></li>
-                        @else
+                        @if(!Auth::user()->isAdmin())
                             <li class="nav-item"><a class="nav-link" href="{{ route('job-postings.index') }}">Browse Jobs</a></li>
                             <li class="nav-item"><a class="nav-link" href="{{ route('job-applications.index') }}">My Applications</a></li>
                         @endif

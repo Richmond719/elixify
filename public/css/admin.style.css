@@ -145,6 +145,16 @@ h1, h2, h3, h4, h5, h6 {
         width: 100%;
     }
 }
+/* Keep header and footer above the fixed sidebar so they are not covered */
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 1100; /* higher than sidebar */
+}
+.site-footer {
+    position: relative;
+    z-index: 1100; /* ensure footer sits above sidebar */
+}
 /* Responsive table scroll */
 .table-responsive { overflow-x: auto; }
 /* Sidebar List Item Customization */
@@ -471,6 +481,32 @@ body::before {
     transform: translateY(-1px);
 }
 .site-footer .fw-medium { font-weight: 600; color: var(--fg); }
+
+/* Footer dark theme */
+.site-footer.bg-dark {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+}
+.site-footer.bg-dark .text-white {
+    color: #ffffff !important;
+}
+.site-footer.bg-dark .text-muted {
+    color: #b0b0b0 !important;
+}
+.site-footer.bg-dark a {
+    color: #ffffff !important;
+}
+.site-footer.bg-dark .btn-outline-secondary {
+    color: #ffffff !important;
+    border-color: #555555 !important;
+}
+.site-footer.bg-dark .btn-outline-secondary:hover {
+    background-color: #555555 !important;
+    border-color: #555555 !important;
+}
+.site-footer.bg-dark .border-top {
+    border-color: #333333 !important;
+}
 
 /* Ensure footer links center nicely and wrap on small screens */
 .site-footer .footer-links {

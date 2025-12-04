@@ -1,3 +1,27 @@
+html, body {
+    height: 100%;
+}
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+#wrapper {
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: row;
+}
+.site-footer {
+    flex-shrink: 0;
+    margin-top: auto;
+}
+/* Ensure footer is always visible at the bottom */
+#wrapper {
+    min-height: 90vh;
+}
+.site-footer {
+    margin-top: 2rem;
+}
 /* ==========================================
    CUSTOM CSS FOR ELIXIFY JOB PLATFORM
    Black & White Theme

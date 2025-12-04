@@ -265,27 +265,25 @@
 					</div>
 				@endif
 
-				<form method="POST" action="{{ route('auth.register') }}" novalidate>
+				<form method="POST" action="{{ route('auth.register') }}" novalidate onsubmit="return validateRoleSelection(event)">
 					@csrf
 
 					<div class="row-gap mb-3">
-						<div>
+						<div class="col-span">
 							<label class="form-label">Account Type</label>
-							<input type="hidden" id="role" name="role" value="{{ old('role') }}" required>
+							<input type="hidden" id="role" name="role" value="{{ old('role') }}">
 
-							<div class="role-selection" role="list" style="display:flex;gap:0.6rem;margin-top:0.6rem">
+							<div class="role-selection" role="list">
 								<div class="role-card" tabindex="0" data-role="job_seeker" aria-pressed="false" role="listitem">
 									<div class="role-card-icon"><i class="bi bi-person-check-fill"></i></div>
 									<div class="role-card-title">Job Seeker</div>
 									<div class="role-card-desc">Search and apply to jobs</div>
-									<div class="role-card-check" aria-hidden>✓</div>
 								</div>
 
 								<div class="role-card" tabindex="0" data-role="admin" aria-pressed="false" role="listitem">
 									<div class="role-card-icon"><i class="bi bi-clipboard-check-fill"></i></div>
-									<div class="role-card-title">Admin / Recruiter</div>
+									<div class="role-card-title">Admin</div>
 									<div class="role-card-desc">Post jobs and manage applicants</div>
-									<div class="role-card-check" aria-hidden>✓</div>
 								</div>
 							</div>
 
@@ -306,7 +304,7 @@
 						</div>
 						<div>
 							<label for="email" class="form-label">Email</label>
-							<input type="email" id="email" name="email" class="form-input" value="{{ old('email') }}" required>
+							<input type="email" id="email" name="email" class="form-input" placeholder="your@email.com" value="{{ old('email') }}" required>
 							@error('email')
 								<div style="color:#d32f2f;font-size:0.78rem;margin-top:0.3rem">{{ $message }}</div>
 							@enderror
@@ -316,28 +314,28 @@
 					<div class="row-gap mb-3">
 						<div>
 							<label for="password" class="form-label">Password</label>
-							<input type="password" id="password" name="password" class="form-input" required>
+							<input type="password" id="password" name="password" class="form-input" placeholder="Minimum 6 characters" required>
 							@error('password')
 								<div style="color:#d32f2f;font-size:0.78rem;margin-top:0.3rem">{{ $message }}</div>
 							@enderror
 						</div>
 						<div>
 							<label for="password_confirmation" class="form-label">Confirm Password</label>
-							<input type="password" id="password_confirmation" name="password_confirmation" class="form-input" required>
+							<input type="password" id="password_confirmation" name="password_confirmation" class="form-input" placeholder="Re-enter your password" required>
 						</div>
 					</div>
 
 					<div class="row-gap mb-3">
 						<div>
 							<label for="contact" class="form-label">Contact</label>
-							<input type="tel" id="contact" name="contact" class="form-input" value="{{ old('contact') }}" required>
+							<input type="tel" id="contact" name="contact" class="form-input" placeholder="+233 or 0 followed by 9 digits" value="{{ old('contact') }}" required>
 							@error('contact')
 								<div style="color:#d32f2f;font-size:0.78rem;margin-top:0.3rem">{{ $message }}</div>
 							@enderror
 						</div>
 						<div>
 							<label for="address" class="form-label">Address</label>
-							<input type="text" id="address" name="address" class="form-input" value="{{ old('address') }}" required>
+							<input type="text" id="address" name="address" class="form-input" placeholder="Your street address or location" value="{{ old('address') }}" required>
 							@error('address')
 								<div style="color:#d32f2f;font-size:0.78rem;margin-top:0.3rem">{{ $message }}</div>
 							@enderror
@@ -347,18 +345,20 @@
 					<button type="submit" class="btn-submit">Create Account</button>
 				</form>
 
-				<style>
-					.role-card{background:#fff;border-radius:10px;padding:0.6rem 0.8rem;display:flex;flex-direction:column;align-items:flex-start;gap:6px;border:1px solid rgba(0,0,0,0.06);cursor:pointer;box-shadow:0 2px 6px rgba(16,24,40,0.04);min-width:170px}
-					.role-card:focus{outline:2px solid #6b46c1;outline-offset:2px}
-					.role-card[aria-pressed="true"]{border-color:#6b46c1;background:linear-gradient(180deg,rgba(107,70,193,0.06),#fff)}
-					.role-card-icon{font-size:1.2rem;color:#6b46c1}
-					.role-card-title{font-weight:600;font-size:0.95rem}
-					.role-card-desc{font-size:0.78rem;color:#556167}
-					.role-card-check{margin-left:auto;color:#2f855a;font-weight:700;display:none}
-					.role-card[aria-pressed="true"] .role-card-check{display:block}
-				</style>
-
-				<script>
+			<style>
+				.role-selection{display:flex;gap:0.6rem;margin-top:0.6rem;justify-content:center;align-items:center;flex-wrap:wrap}
+				.col-span{grid-column:1 / -1}
+				.role-card{background:#fff;border-radius:12px;padding:0.75rem 1rem;display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;border:2px solid #e5e7eb;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,0.08);width:160px;height:160px;transition:all 0.2s cubic-bezier(0.4,0,0.2,1);justify-content:center}
+				.role-card:hover{border-color:#d1d5db;box-shadow:0 4px 12px rgba(0,0,0,0.12)}
+				.role-card:focus{outline:none;border-color:#1f2937;box-shadow:0 0 0 3px rgba(31,41,55,0.1),0 4px 12px rgba(0,0,0,0.12)}
+				.role-card[aria-pressed="true"]{background:#000;border-color:#000;box-shadow:0 4px 12px rgba(0,0,0,0.3)}
+				.role-card-icon{font-size:1.5rem;color:#1f2937;transition:all 0.2s cubic-bezier(0.4,0,0.2,1)}
+				.role-card[aria-pressed="true"] .role-card-icon{color:#fff;transform:scale(1.1)}
+				.role-card-title{font-weight:600;font-size:0.95rem;color:#1f2937;transition:color 0.2s}
+				.role-card[aria-pressed="true"] .role-card-title{color:#fff}
+				.role-card-desc{font-size:0.75rem;color:#6b7280;transition:color 0.2s}
+				.role-card[aria-pressed="true"] .role-card-desc{color:#fff}
+			</style>				<script>
 					(function(){
 						var cards = document.querySelectorAll('.role-card');
 						var roleInput = document.getElementById('role');
@@ -382,7 +382,24 @@
 		</div>
 	</div>
 	</div>
+
 	<script>
+		function validateRoleSelection(event) {
+			var roleInput = document.getElementById('role');
+			if (!roleInput.value) {
+				event.preventDefault();
+				Swal.fire({
+					title: 'Role Required',
+					text: 'Please select an account type (Job Seeker or Admin) to continue.',
+					icon: 'warning',
+					confirmButtonColor: '#3b82f6',
+					confirmButtonText: 'OK'
+				});
+				return false;
+			}
+			return true;
+		}
+
 		@if($errors->any())
 			Swal.fire({
 				title: 'Registration Error',
